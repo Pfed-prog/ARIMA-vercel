@@ -36,7 +36,7 @@ def home():
 
     df_data = get_data(address)
 
-    something = np.array(df_data.price[-5:])
+    something = list(df_data.price[-5:])
 
 
     return jsonify({'data': something})
