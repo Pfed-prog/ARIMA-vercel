@@ -60,4 +60,4 @@ def home():
         predictions.append(intercept + coef*last_value)
         last_value = intercept + coef*last_value
 
-    return jsonify({'prediction': predictions})
+    return jsonify({'prediction': predictions, 'last_date': str(df_data.date.iloc[-1])})
