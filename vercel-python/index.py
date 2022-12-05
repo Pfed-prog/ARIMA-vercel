@@ -4,7 +4,6 @@ import json
 from datetime import datetime
 import requests
 from flask import Flask, request, jsonify, send_file
-import joblib
 import pandas as pd
 
 app = Flask(__name__)
