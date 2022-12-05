@@ -41,6 +41,8 @@ def get_data(address):
     dataframe = pd.DataFrame({'date': date, 'price': price})
     dataframe = dataframe.sort_values(by='date').reset_index(drop=True)
     dataframe['price_1'] = dataframe.price.shift(1)
+    dataframe.date = pd.to_datetime(dataframe.date)
+    dataframe['ts'] = dataframe[['date']].apply(lambda x: x[0].timestamp(), axis=1).astype(int)
     return dataframe
 
 @app.route("/", methods=["GET","POST"])
@@ -60,4 +62,4 @@ def home():
         predictions.append(intercept + coef*last_value)
         last_value = intercept + coef*last_value
 
-    return jsonify({'prediction': predictions, 'last_date': str(df_data.date.iloc[-1])})
+    return jsonify({'prediction': predictions, 'last_date': str(df_data.ts.iloc[-1])})
