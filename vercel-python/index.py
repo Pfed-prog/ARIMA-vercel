@@ -1,7 +1,8 @@
 """nonempty"""
 import requests
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify
 import pandas as pd
+import numpy as np
 
 app = Flask(__name__)
 
@@ -13,7 +14,7 @@ def get_data(address):
 
     address: address of the Uniswap contract
     """
-    response = requests.get(f"https://api.covalenthq.com/v1/pricing/historical_by_addresses_v2/9001/USD/{address}/?from=2022-10-01&key=ckey_3c25e5ced5f74d099e39692d87a")
+    response = requests.get(f"https://api.covalenthq.com/v1/pricing/historical_by_addresses_v2/9001/USD/{address}/?from=2022-10-01&key=ckey_3c25e5ced5f74d099e39692d87a", timeout=5)
     data = response.json()
     date, price = [], []
 
@@ -35,4 +36,7 @@ def home():
 
     df_data = get_data(address)
 
-    return jsonify(df_data)
+    something = np.array(df_data.price[-5:])
+
+
+    return jsonify({'data': something})
